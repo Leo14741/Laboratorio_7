@@ -22,7 +22,7 @@ public class Accione {
     @Column(name = "fecha")
     private Instant fecha;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "usuarios_id", nullable = false)
     private Usuario usuarios;
 
