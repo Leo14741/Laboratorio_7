@@ -1,9 +1,8 @@
 package com.example.lab7.Controllers;
 
-import com.example.lab7.Entitys.Solicitude;
+import com.example.lab7.Entitys.Accione;
 import com.example.lab7.Entitys.Usuario;
-import com.example.lab7.Repositorys.SolicitudeRepository;
-import com.example.lab7.Repositorys.UsuarioRepository;
+import com.example.lab7.Repositorys.AccioneRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,29 +15,25 @@ import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("users")
-public class UserController {
-    final UsuarioRepository usuarioRepository;
-    final SolicitudeRepository solicitudeRepository;
+@RequestMapping("acciones")
+public class AccionesController {
+    final AccioneRepository accioneRepository;
 
-    public UserController(UsuarioRepository usuarioRepository, SolicitudeRepository solicitudeRepository) {
-        this.usuarioRepository = usuarioRepository;
-        this.solicitudeRepository = solicitudeRepository;
+    public AccionesController(AccioneRepository accioneRepository) {
+        this.accioneRepository = accioneRepository;
     }
 
     @GetMapping("/listar")
-    public List<Usuario> listarUsuarios(){
-        return usuarioRepository.findAll();
-    }
+    public List<Accione> listarAcciones(){ return accioneRepository.findAll();}
 
-    @PostMapping("/crear")
-    public ResponseEntity<HashMap<String, Object>> guardarUsuario(
-            @RequestBody Usuario usuario){
+    @PostMapping("/save")
+    public ResponseEntity<HashMap<String, Object>> guardarAccion(
+            @RequestBody Accione accion) {
 
         HashMap<String, Object> responseJson = new HashMap<>();
 
-        usuarioRepository.save(usuario);
-        responseJson.put("id creado",usuario.getId());
+        accioneRepository.save(accion);
+        responseJson.put("idCreado",accion.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
     }
 
@@ -47,10 +42,8 @@ public class UserController {
         HashMap<String, String> responseMap = new HashMap<>();
         if (request.getMethod().equals("POST")) {
             responseMap.put("estado", "error");
-            responseMap.put("msg", "Debe enviar un usuario");
+            responseMap.put("msg", "Debe enviar una accion");
         }
         return ResponseEntity.badRequest().body(responseMap);
     }
-
-
 }
