@@ -22,7 +22,7 @@ public class PagosController {
     PagosRepository pagosRepository;
 
     @ResponseBody
-    @GetMapping("/lista")
+    @GetMapping("/listarPagos")
     public List<Pagos> listaPagos(){
         return pagosRepository.findAll();
     }
