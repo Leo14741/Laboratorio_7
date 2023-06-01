@@ -1,6 +1,8 @@
 package com.example.lab7.Controllers;
 
+import com.example.lab7.Entitys.Solicitude;
 import com.example.lab7.Entitys.Usuario;
+import com.example.lab7.Repositorys.SolicitudeRepository;
 import com.example.lab7.Repositorys.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -14,19 +16,22 @@ import java.util.List;
 
 @RestController
 @Controller
+@RequestMapping("users")
 public class UserController {
     final UsuarioRepository usuarioRepository;
+    final SolicitudeRepository solicitudeRepository;
 
-    public UserController(UsuarioRepository usuarioRepository) {
+    public UserController(UsuarioRepository usuarioRepository, SolicitudeRepository solicitudeRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.solicitudeRepository = solicitudeRepository;
     }
 
-    @GetMapping("/usuarios")
+    @GetMapping("/listar")
     public List<Usuario> listarUsuarios(){
         return usuarioRepository.findAll();
     }
 
-    @PostMapping("/crearUsuario")
+    @PostMapping("/crear")
     public ResponseEntity<HashMap<String, Object>> guardarUsuario(
             @RequestBody Usuario usuario,
             @RequestParam(value = "fetchId", required = false) boolean fetchId) {
@@ -42,16 +47,14 @@ public class UserController {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<HashMap<String,String>> gestionException(HttpServletRequest request){
-        HashMap<String,String> responseMap = new HashMap<>();
-        if(request.getMethod().equals("POST")){
-            responseMap.put("estado","error");
-            responseMap.put("msg","Debe enviar un usuario");
+    public ResponseEntity<HashMap<String,String>> gestionException(HttpServletRequest request) {
+        HashMap<String, String> responseMap = new HashMap<>();
+        if (request.getMethod().equals("POST")) {
+            responseMap.put("estado", "error");
+            responseMap.put("msg", "Debe enviar un usuario");
         }
         return ResponseEntity.badRequest().body(responseMap);
     }
-
-
 
 
 }
