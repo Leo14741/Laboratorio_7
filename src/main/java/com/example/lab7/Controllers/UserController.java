@@ -33,16 +33,12 @@ public class UserController {
 
     @PostMapping("/crear")
     public ResponseEntity<HashMap<String, Object>> guardarUsuario(
-            @RequestBody Usuario usuario,
-            @RequestParam(value = "fetchId", required = false) boolean fetchId) {
+            @RequestBody Usuario usuario){
 
         HashMap<String, Object> responseJson = new HashMap<>();
 
         usuarioRepository.save(usuario);
-        if(fetchId){
-            responseJson.put("id",usuario.getId());
-        }
-        responseJson.put("estado","creado");
+        responseJson.put("id creado",usuario.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
     }
 
