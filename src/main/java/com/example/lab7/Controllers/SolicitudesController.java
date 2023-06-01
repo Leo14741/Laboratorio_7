@@ -57,6 +57,7 @@ public class SolicitudesController {
             Solicitude solicitud = optionalSolicitude.get();
             if (solicitud.getSolicitudEstado().equals("pendiente")) {
                 solicitud.setSolicitudEstado("aprobada");
+                solicitudeRepository.save(solicitud);
                 responseJson.put("id", solicitud.getId());
             }
             else
@@ -75,6 +76,7 @@ public class SolicitudesController {
             Solicitude solicitud = optionalSolicitude.get();
             if (solicitud.getSolicitudEstado().equals("pendiente")) {
                 solicitud.setSolicitudEstado("denegada");
+                solicitudeRepository.save(solicitud);
                 responseJson.put("id", solicitud.getId());
             }
             else
